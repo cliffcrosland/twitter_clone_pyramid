@@ -1,0 +1,100 @@
+{%- macro tweet_template(tweet) -%}
+  <div class="tweet">
+    <div class="user-picture">
+      <img src="{{ tweet.user.picture_url }}" />
+    </div>
+    <div class="content">
+      <div class="title">
+        <span class="name">{{ tweet.user.name }}</span>
+        <span class="handle">{{ tweet.user.handle }}</span>
+        <span class="date">{{ tweet.date }}</span>
+      </div>
+      <div class="text">
+        {{ tweet.text }}
+      </div>
+      {% if tweet.url %}
+        <div class="tweet-url">
+          <a href="{{ tweet.url }}">
+            {{ tweet.url_text }}
+          </a>
+        </div>
+      {% endif %}
+      {% if tweet.picture_url %}
+        <div class='tweet-picture'>
+          <img src="{{ tweet.picture_url }}" />
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{%- endmacro %}
+
+{%- macro tweet_styles_template() -%}
+<style>
+.tweets-feed .tweet {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e1e7ec;
+}
+
+.tweets-feed .tweet:hover {
+  background-color: #f5f8fa;
+  cursor: pointer;
+}
+
+.tweets-feed .tweet .user-picture {
+  width: 68px;
+  display: inline-block;
+}
+
+.tweets-feed .tweet .user-picture img {
+  width: 50px;
+  border-radius: 25px;
+}
+
+.tweets-feed .tweet .content {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.tweets-feed .tweet .content .title {
+  color: #657786;
+  margin-bottom: 4px;
+}
+
+.tweets-feed .tweet .content .title .name {
+  color: #14171a;
+  font-weight: bold;
+}
+
+.tweets-feed .tweet .content .title .date:before {
+  content: "\00b7";
+  padding-right: 4px;
+}
+
+.tweets-feed .tweet .content .text {
+  margin-bottom: 4px;
+}
+
+.tweets-feed .tweet .content .tweet-url {
+  margin-bottom: 10px;
+}
+
+.tweets-feed .tweet .content .tweet-url a {
+  color: #1da1f2;
+  text-decoration: none;
+}
+
+.tweets-feed .tweet .content .tweet-url a:hover {
+  text-decoration: underline;
+}
+
+.tweets-feed .tweet .content .tweet-picture {
+  padding-top: 10px;
+}
+
+.tweets-feed .tweet .content .tweet-picture img {
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  max-width: 480px;
+}
+</style>
+{%- endmacro %}

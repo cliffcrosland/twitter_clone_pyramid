@@ -1,0 +1,28 @@
+{% extends "../layout.jinja2" %}
+
+{% from './tweet_box.jinja2' import tweet_box_template, tweet_box_styles_template with context %}
+{% from './tweet.jinja2' import tweet_template, tweet_styles_template with context %}
+
+{% block content %}
+<div class="tweets-feed">
+  {{ tweet_box_template() }}
+
+  {% for tweet_obj in tweets_feed %}
+    {{ tweet_template(tweet_obj) }}
+  {% endfor %}
+</div>
+{% endblock content %}
+
+
+{% block styles %}
+<style>
+.tweets-feed {
+  width: 590px;
+  background-color: #ffffff;
+  margin: 0 auto;
+}
+</style>
+{{ tweet_box_styles_template() }}
+{{ tweet_styles_template() }}
+
+{% endblock styles %}
