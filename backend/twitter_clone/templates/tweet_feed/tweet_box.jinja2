@@ -1,0 +1,98 @@
+{%- macro tweet_box_template() -%}
+  <div class="tweet-box">
+    <div class="user-picture">
+      <img src="{{ me.picture_url }}" />
+    </div>
+    <div class="content">
+      <div class="text-wrapper">
+        <textarea class="tweet-textarea" placeholder="What's happening?" rows="3"></textarea>
+      </div>
+      <div class="controls">
+        <div class="tweet-button">
+          <span class="chars-left">140</span>
+          <button class="submit">Tweet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endmacro %}
+
+{%- macro tweet_box_styles_template() -%}
+<style>
+.tweets-feed .tweet-box {
+    padding: 14px 28px;
+    background-color: #e8f5fd;
+}
+
+.tweets-feed .tweet-box .user-picture {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.tweets-feed .tweet-box .user-picture img {
+    width: 34px;
+    border-radius: 17px;
+}
+
+.tweets-feed .tweet-box .content {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.tweets-feed .tweet-box .content .text-wrapper {
+    height: 78px;
+    width: 432px;
+}
+
+.tweets-feed .tweet-box .content .text-wrapper textarea {
+    padding: 10px 14px;
+    resize: none;
+    width: 400px;
+    border-radius: 14px;
+    font-size: 14px;
+    border: 1px solid #c1e1f8;
+}
+
+.tweets-feed .tweet-box .content .text-wrapper textarea::placeholder {
+    color: #c3ccd4;
+}
+
+.tweets-feed .tweet-box .content .text-wrapper textarea:focus {
+    outline: none;
+    border: 2px solid #a4d9f9;
+    position: relative;
+    left: -1px;
+    top: -1px;
+}
+
+.tweets-feed .tweet-box .content .controls {
+    padding-top: 10px;
+}
+
+.tweets-feed .tweet-box .content .controls .tweet-button {
+    float: right;
+}
+
+.tweets-feed .tweet-box .content .controls .tweet-button .chars-left {
+    margin-right: 5px;
+    color: #657786;
+}
+
+.tweets-feed .tweet-box .content .controls .tweet-button button.submit {
+    display: inline-block;
+    background-color: #4ab3f4;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 17px;
+    width: 74px;
+    height: 34px;
+}
+
+.tweets-feed .tweet-box .content .controls .tweet-button button.submit:hover {
+    background-color: #1da1f2;
+    cursor: pointer;
+}
+</style>
+{%- endmacro %}

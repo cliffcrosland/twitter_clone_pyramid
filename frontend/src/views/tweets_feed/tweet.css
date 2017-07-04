@@ -1,0 +1,70 @@
+.tweet {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e1e7ec;
+}
+
+.tweet:hover {
+  background-color: #f5f8fa;
+  cursor: pointer;
+}
+
+.tweet .user-picture {
+  width: 68px;
+  display: inline-block;
+}
+
+.tweet .user-picture img {
+  width: 50px;
+  border-radius: 25px;
+}
+
+.tweet .content {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.tweet .content .title {
+  color: #657786;
+  margin-bottom: 4px;
+}
+
+.tweet .content .title span {
+  margin-right: 4px;
+}
+
+.tweet .content .title .name {
+  color: #14171a;
+  font-weight: bold;
+}
+
+.tweet .content .title .date:before {
+  content: "\00b7";
+  padding-right: 4px;
+}
+
+.tweet .content .text {
+  margin-bottom: 4px;
+}
+
+.tweet .content .tweet-url {
+  margin-bottom: 10px;
+}
+
+.tweet .content .tweet-url a {
+  color: #1da1f2;
+  text-decoration: none;
+}
+
+.tweet .content .tweet-url a:hover {
+  text-decoration: underline;
+}
+
+.tweet .content .tweet-picture {
+  padding-top: 10px;
+}
+
+.tweet .content .tweet-picture img {
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  max-width: 480px;
+}
