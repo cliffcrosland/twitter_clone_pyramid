@@ -7,33 +7,42 @@ from .models import (
     )
 
 
-@view_config(route_name='home', renderer='templates/tweet_feed/index.jinja2')
-def home_view(request):
-    tweets = DBSession.query(Tweet).order_by(Tweet.posted_at).all()
+def get_logged_in_user(request):
+    return DBSession.query(User).filter_by(handle='cliffcrosland').one()
+
+
+def get_tweet_feed_dict_for_user(user):
+    tweets = (
+        DBSession.query(Tweet)
+        .filter_by(feed_user_id=user.id)
+        .order_by(Tweet.posted_at.desc())
+        .all()
+    )
     return {
-        'me': {
-            'picture_url': 'https://pbs.twimg.com/profile_images/787739949793542144/0D4z_jYt_normal.jpg',
-        },
-        'tweets_feed': [tweet.to_dict() for tweet in tweets]
+        'tweets': [tweet.to_dict() for tweet in tweets]
     }
 
-    """
-    return {
-        'tweets_feed': [
-            {
-                'user': {
-                    'picture_url': 'https://pbs.twimg.com/profile_images/1545739358/3Mt2Nb7x_bigger',
-                    'name': 'Mel Reams',
-                    'handle': '@mel_reams',
-                },
-                'date': '3h',
-                'text': "What's the big deal about years of experience in language?",
-                'tweet_url': {
-                    'url': 'http://www.google.com/',
-                    'text': 'melreams.com/2017/07/whats-...',
-                  },
-                'picture_url': 'https://pbs.twimg.com/media/DD0oefjVYAEvBVM.jpg',
-            }
-        ]
-    }
-    """
+
+@view_config(route_name='me', renderer='json')
+def me_view(request):
+    return {'me': get_logged_in_user(request).to_dict()}
+
+
+@view_config(route_name='my_tweet_feed', renderer='json')
+def my_tweet_feed_view(request):
+    return get_tweet_feed_dict_for_user(get_logged_in_user(request))
+
+
+@view_config(route_name='user_tweet_feed', renderer='json')
+def user_tweet_feed_view(request):
+    user_public_id = request.matchdict['user_public_id']
+    user = DBSession.query(User).filter_by(public_id=user_public_id).one()
+    return get_tweet_feed_dict_for_user(user)
+
+
+@view_config(route_name='post_tweet', renderer='json')
+def post_tweet_view(request):
+    me = get_logged_in_user(request)
+    tweet = Tweet.new_tweet(user=me, text=request.json_body['text'])
+    DBSession.add(tweet)
+    return {'tweet': tweet.to_dict()}

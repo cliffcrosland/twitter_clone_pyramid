@@ -75,6 +75,7 @@
   border-radius: 17px;
   width: 74px;
   height: 34px;
+  outline: none;
 }
 
 .tweet-box .content .controls .tweet-button button.submit:disabled {
@@ -84,4 +85,14 @@
 .tweet-box .content .controls .tweet-button button.submit:hover {
   background-color: #1da1f2;
   cursor: pointer;
+}
+
+.tweet-box .content .placeholder-textarea {
+  color: #1da1f2;
+  background-color: white;
+  border: 1px solid #c1e1f8;
+  border-radius: 20px;
+  width: 410px;
+  padding: 10px 0 10px 20px;
+  cursor: text;
 }

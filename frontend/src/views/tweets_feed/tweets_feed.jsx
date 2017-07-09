@@ -7,7 +7,8 @@ class TweetsFeed extends Component {
   render() {
     const tweets = this.props.tweets;
     const me = this.props.me;
-    console.log(me);
+    console.log('tweets', tweets);
+    console.log('me', me);
     const tweetsList = tweets.map((tweet) => {
       return <Tweet key={tweet.id} tweet={tweet} />;
     });

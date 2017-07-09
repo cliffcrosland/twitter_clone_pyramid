@@ -1,15 +1,43 @@
+import Api from '../../api/api';
 import React, { Component } from 'react';
 import './tweet_submit_box.css';
 
 class TweetSubmitBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {text: '', focused: false};
     this.handleChange = this.handleChange.bind(this);
+    this.submitTweet = this.submitTweet.bind(this);
+    this.clickListener = this.clickListener.bind(this);
+  }
+
+  componentDidMount() {
+    document.getElementById('root').addEventListener('click', this.clickListener);
+  }
+
+  componentWillUnmount() {
+    document.getElementById('root').removeEventListener('click', this.clickListener);
+  }
+
+  clickListener(event) {
+    let node = event.target;
+    while (node) {
+      const classList = node.classList || [];
+      if (classList.contains('tweet-box')) return;
+      node = node.parentElement;
+    }
+    this.setState({focused: false});
   }
 
   handleChange(event) {
     this.setState({text: event.target.value});
+  }
+
+  submitTweet(event) {
+    console.log('submitTweet called');
+    if (!this.isValid()) return;
+    Api.post('api/tweet', {text: this.state.text}, (result) => Api.signalChange('tweet_feed'));
+    this.setState({text: ''});
   }
 
   render() {
@@ -19,23 +47,48 @@ class TweetSubmitBox extends Component {
         <div className="user-picture">
           <img src={me.picture_url} />
         </div>
-        <div className="content">
-          <div className="text-wrapper">
-            <textarea className="tweet-textarea"
-                      placeholder="What's happening?"
-                      rows="3"
-                      value={this.state.value}
-                      onChange={this.handleChange}></textarea>
-          </div>
-          <div className="controls">
-            <div className="tweet-button">
-              <span className={this.charsLeftClassNames()}>
-                {this.charsLeft()}
-              </span>
-              <button className="submit" disabled={this.isButtonDisabled()}>
-                Tweet
-              </button>
-            </div>
+        {this.renderContent()}
+      </div>
+    );
+  }
+
+  renderContent() {
+    if (this.state.focused) {
+      return this.renderTextArea();
+    } else {
+      return this.renderPlaceholder();
+    }
+  }
+
+  renderPlaceholder() {
+    return (
+      <div className="content">
+        <div className="placeholder-textarea" onClick={() => this.setState({focused: true})}>
+          {"What's happening?"}
+        </div>
+      </div>
+    );
+  }
+
+  renderTextArea() {
+    return (
+      <div className="content">
+        <div className="text-wrapper">
+          <textarea className="tweet-textarea"
+                    placeholder="What's happening?"
+                    rows="3"
+                    value={this.state.text}
+                    onChange={this.handleChange}
+                    autoFocus></textarea>
+        </div>
+        <div className="controls">
+          <div className="tweet-button">
+            <span className={this.charsLeftClassNames()}>
+              {this.charsLeft()}
+            </span>
+            <button className="submit" disabled={!this.isValid()} onClick={this.submitTweet}>
+              Tweet
+            </button>
           </div>
         </div>
       </div>
@@ -57,9 +110,9 @@ class TweetSubmitBox extends Component {
     return classNames.join(' ');
   }
 
-  isButtonDisabled() {
+  isValid() {
     const charsLeft = this.charsLeft();
-    return charsLeft == 140 || charsLeft <= 0
+    return charsLeft < 140 && charsLeft >= 0
   }
 };
 
